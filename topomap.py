@@ -3,8 +3,11 @@ import mne
 import numpy as np
 import matplotlib.pyplot as plt
 
-subj_path = "/Users/itoakane/physionet.org/files/eegmmidb/1.0.0/S007"
-edf_files = [os.path.join(subj_path, f) for f in os.listdir(subj_path) if f.endswith(".edf")]
+from mne.datasets import eegbci
+
+# Subject 7, runs 3, 7, 11 (Motor imagery: left vs right hand)
+runs = [3, 7, 11]
+edf_files = eegbci.load_data(7, runs)
 
 if len(edf_files) == 0:
     raise RuntimeError("EDFファイルが見つかりませんでした。")
@@ -43,4 +46,5 @@ psd_mean_ch = np.mean(psds, axis=(0, 2))  # チャンネルごとに平均
 plt.figure(figsize=(6, 5))
 mne.viz.plot_topomap(psd_mean_ch, raws[0].info, show=True)
 plt.title("Average PSD Topomap (1-40 Hz)")
-plt.show()
+plt.savefig("topomap_result.png")
+# plt.show()

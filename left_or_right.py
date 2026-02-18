@@ -5,8 +5,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 
-# EDFファイル読み込み
-edf_path = "/Users/itoakane/physionet.org/files/eegmmidb/1.0.0/S001/S001R01.edf"
+from mne.datasets import eegbci
+
+# EDFファイル読み込み (MNEのサンプルデータセットを使用)
+# Subject 1, Run 1 (Baseline, eyes open)
+edf_path = eegbci.load_data(1, 1)[0]
 raw = mne.io.read_raw_edf(edf_path, preload=True)
 
 # バンドパスフィルタリング
